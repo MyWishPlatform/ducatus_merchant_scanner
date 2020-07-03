@@ -2,11 +2,10 @@ import threading
 import sys
 import os
 
-from eventscanner.queue.pika_handler import send_to_backend
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
 
+from eventscanner.queue.pika_handler import send_to_backend
 from networks.duc import DucMaker
 from settings.settings_local import NETWORKS
 
