@@ -13,7 +13,7 @@ def send_to_backend(type, queue, message):
     channel.queue_declare(queue=queue, durable=True, auto_delete=False,
                           exclusive=False)
     channel.basic_publish(
-        exchange=queue,
+        exchange='',
         routing_key=queue,
         body=json.dumps(message),
         properties=pika.BasicProperties(type=type),

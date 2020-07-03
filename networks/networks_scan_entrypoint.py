@@ -30,4 +30,4 @@ if __name__ == '__main__':
         scan = ScanEntrypoint(network_name, network_maker, NETWORKS[network_name]['polling_interval'],
                               NETWORKS[network_name]['commitment_chain_length'])
         scan.start()
-        send_to_backend(network_name, NETWORKS[network_name]['queue'], None)
+        send_to_backend(network_name, NETWORKS[network_name]['queue'], {})
