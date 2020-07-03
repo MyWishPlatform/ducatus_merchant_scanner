@@ -17,6 +17,7 @@ class DucPaymentMonitor:
         transfers = session \
             .query(Transfer) \
             .filter(Transfer.duc_address.in_(addresses)) \
+            .distinct(Transfer.duc_address)\
             .all()
         for transfer in transfers:
             transactions = block_event.transactions_by_address[transfer.duc_address]
