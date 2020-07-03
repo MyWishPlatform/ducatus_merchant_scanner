@@ -2,6 +2,8 @@ import threading
 import sys
 import os
 
+from eventscanner.queue.pika_handler import send_to_backend
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
 
@@ -28,3 +30,4 @@ if __name__ == '__main__':
         scan = ScanEntrypoint(network_name, network_maker, NETWORKS[network_name]['polling_interval'],
                               NETWORKS[network_name]['commitment_chain_length'])
         scan.start()
+        send_to_backend(network_name, NETWORKS[network_name]['queue'], None)
