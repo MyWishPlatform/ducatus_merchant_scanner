@@ -1,6 +1,7 @@
 from eventscanner.queue.pika_handler import send_to_backend
 from models.models import Transfer, session
 from scanner.events.block_event import BlockEvent
+from settings.settings_local import NETWORKS
 
 
 class DucPaymentMonitor:
@@ -35,4 +36,4 @@ class DucPaymentMonitor:
                         'status': 'COMMITTED'
                     }
 
-                    send_to_backend(cls.event_type, 'notification-ducatus-mainnet', message)
+                    send_to_backend(cls.event_type, NETWORKS[block_event.network.type]['queue'], message)
