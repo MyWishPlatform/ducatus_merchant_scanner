@@ -8,6 +8,6 @@ Base = automap_base()
 engine = create_engine(mywish_pg_engine)
 Base.prepare(engine, reflect=True)
 
-UserSiteBalance = Base.classes.profile_usersitebalance
+Transfer = Base.classes.transfers_transfer
 
 session = Session(engine)
