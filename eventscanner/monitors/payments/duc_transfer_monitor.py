@@ -4,7 +4,7 @@ from scanner.events.block_event import BlockEvent
 from settings.settings_local import NETWORKS
 
 
-class DucPaymentMonitor:
+class DucTransferMonitor:
     network_type = ['DUCATUS_MAINNET']
     event_type = 'transferred'
 
@@ -13,26 +13,22 @@ class DucPaymentMonitor:
         if block_event.network.type not in cls.network_type:
             return
 
-        addresses = block_event.transactions_by_address.keys()
+        tx_hashes = set()
+        for address_transactions in block_event.transactions_by_address.values():
+            for transaction in address_transactions:
+                tx_hashes.add(transaction.tx_hash)
+
         transfers = session \
             .query(Payment) \
-            .filter(Payment.duc_address.in_(addresses)) \
-            .distinct(Payment.duc_address) \
+            .filter(Payment.transfer_tx.in_(tx_hashes)) \
+            .distinct(Payment.transfer_tx) \
             .all()
         for transfer in transfers:
-            transactions = block_event.transactions_by_address[transfer.duc_address]
 
-            for transaction in transactions:
-                for output in transaction.outputs:
-                    if transfer.duc_address not in output.address:
-                        print('{}: Found transaction out from internal address. Skip it.'
-                              .format(block_event.network.type), flush=True)
-                        continue
+            message = {
+                'txHash': transfer.transfer_tx,
+                'success': True,
+                'status': 'COMMITTED'
+            }
 
-                    message = {
-                        'txHash': transaction.tx_hash,
-                        'success': True,
-                        'status': 'COMMITTED'
-                    }
-
-                    send_to_backend(cls.event_type, NETWORKS[block_event.network.type]['queue'], message)
+            send_to_backend(cls.event_type, NETWORKS[block_event.network.type]['queue'], message)
