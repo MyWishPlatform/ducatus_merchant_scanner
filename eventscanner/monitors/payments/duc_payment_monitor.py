@@ -32,7 +32,7 @@ class DucPaymentMonitor:
                     message = {
                         'transactionHash': transaction.tx_hash,
                         'currency': 'DUC',
-                        'toAddress': output.address,
+                        'toAddress': output.address[0],
                         'amount': output.value,
                         'success': True,
                         'status': 'COMMITTED'
