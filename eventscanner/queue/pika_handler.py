@@ -6,8 +6,8 @@ def send_to_backend(type, queue, message):
     connection = pika.BlockingConnection(pika.ConnectionParameters(
         'localhost',
         5672,
-        'duc_voucher',
-        pika.PlainCredentials('duc_voucher', 'duc_voucher'),
+        'payment_ducatus',
+        pika.PlainCredentials('payment_ducatus', 'payment_ducatus'),
     ))
     channel = connection.channel()
     channel.queue_declare(queue=queue, durable=True, auto_delete=False,

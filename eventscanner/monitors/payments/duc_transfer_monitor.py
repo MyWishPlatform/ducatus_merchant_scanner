@@ -6,7 +6,7 @@ from settings.settings_local import NETWORKS
 
 class DucPaymentMonitor:
     network_type = ['DUCATUS_MAINNET']
-    event_type = 'payment'
+    event_type = 'transferred'
 
     @classmethod
     def on_new_block_event(cls, block_event: BlockEvent):
@@ -30,10 +30,7 @@ class DucPaymentMonitor:
                         continue
 
                     message = {
-                        'transactionHash': transaction.tx_hash,
-                        'currency': 'DUC',
-                        'toAddress': output.address,
-                        'amount': output.value,
+                        'txHash': transaction.tx_hash,
                         'success': True,
                         'status': 'COMMITTED'
                     }

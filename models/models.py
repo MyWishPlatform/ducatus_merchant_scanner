@@ -8,6 +8,6 @@ Base = automap_base()
 engine = create_engine(mywish_pg_engine)
 Base.prepare(engine, reflect=True)
 
-Transfer = Base.classes.transfers_transfer
+Payment = Base.classes.payment_requests_paymentrequest
 
 session = Session(engine)
